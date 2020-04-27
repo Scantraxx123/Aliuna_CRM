@@ -29,6 +29,7 @@ namespace Aliuna_Kundenmanagement
         {
             // Create OpenFileDialog 
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "SQLite Database |*.db"; // Filter files by extension
 
             // Get the selected file name and display in a TextBox 
             if (dlg.ShowDialog() == true) InitializeWindow(dlg.FileName);
