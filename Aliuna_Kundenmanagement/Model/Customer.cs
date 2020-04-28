@@ -1,9 +1,4 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Aliuna_Kundenmanagement.Model
 {
@@ -17,12 +12,26 @@ namespace Aliuna_Kundenmanagement.Model
         public string email { get; set; }
         public string street { get; set; }
         public string housenumber { get; set; }
+        public string postcode { get; set; }
         public string city { get; set; }
         public string country { get; set; }
 
         public Customer()
         {
 
+        }
+
+        public Customer(string company, string firstName, string lastName, string email, string street, string housenumber, string postcode, string city, string country)
+        {
+            this.company = company;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.street = street;
+            this.housenumber = housenumber;
+            this.postcode = postcode;
+            this.city = city;
+            this.country = country;
         }
     }
 }

@@ -7,28 +7,92 @@
         mc:Ignorable="d"
         Title="Aliuna_CRM" Width="1000" Height="800" ResizeMode="CanMinimize" Background="White">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <Menu Height="27" Width="1000" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top">
-        <MenuItem Header="File">
-                <MenuItem x:Name="newDatabaseButtonCT" Header="New DB" Click="newDatabaseButtonCT_Click" />
-                <MenuItem x:Name="loadDatabaseButtonCT" Header="Load DB" Click="loadDatabaseButtonCT_Click"/>
+            <MenuItem Header="File">
+                <MenuItem x:Name="newDatabaseButtonCT" Header="New DB" Click="NewDatabaseButtonCT_Click" />
+                <MenuItem x:Name="loadDatabaseButtonCT" Header="Load DB" Click="LoadDatabaseButtonCT_Click"/>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="New Dataset"/>
             </MenuItem>
         </Menu>
-        <DataGrid Name="customerTable" AutoGenerateColumns="False" CanUserResizeColumns="False" Margin="0,20,0,0" Background="White" Visibility="Hidden">
+        <DataGrid Name="customerTable" IsReadOnly="True" SelectedCellsChanged="customerTable_SelectedCellsChanged" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Height="400" Width="970" Margin="0,20,20,0">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" />
+                    <MenuItem Header="Delete" Click="DeleteCustomerButtonCT_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Unternehmen" Binding="{Binding company}" />
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
+                <DataGridTextColumn Header="Unternehmen" Binding="{Binding company}"/>
                 <DataGridTextColumn Header="Vorname" Binding="{Binding firstName}" />
                 <DataGridTextColumn Header="Nachname" Binding="{Binding lastName}" />
                 <DataGridTextColumn Header="E-Mail" Binding="{Binding email}" />
                 <DataGridTextColumn Header="Straße" Binding="{Binding street}" />
                 <DataGridTextColumn Header="Hausnummer" Binding="{Binding housenumber}" />
+                <DataGridTextColumn Header="PLZ" Binding="{Binding postcode}" />
                 <DataGridTextColumn Header="Stadt" Binding="{Binding city}" />
                 <DataGridTextColumn Header="Land" Binding="{Binding country}" Width="*"/>
-                <DataGridTextColumn Header="Delete"  Width="*" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
+        <DockPanel Grid.Row="1" Height="350">
+            <GroupBox Header="Customerdata" HorizontalAlignment="Left" Width="250">
+                <DockPanel >
+                    <StackPanel HorizontalAlignment="Left">
+                        <Label Content="Customernumber" Margin="0,5,0,0"/>
+                        <Label Content="Company" Margin="0,5,0,0"/>
+                        <Label Content="First name" Margin="0,5,0,0"/>
+                        <Label Content="Last name" Margin="0,5,0,0"/>
+                        <Label Content="E-Mail" Margin="0,5,0,0"/>
+                        <Label Content="Street" Margin="0,5,0,0"/>
+                        <Label Content="Housenumber" Margin="0,5,0,0"/>
+                        <Label Content="Postcode" Margin="0,5,0,0"/>
+                        <Label Content="City" Margin="0,5,0,0"/>
+                        <Label Content="Country"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right">
+                        <TextBox x:Name="idTB"  IsReadOnly="True" Width="120"  Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="companyTB" Width="120" Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="fnTB" Width="120"  Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="lnTB" Width="120"  Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="emailTB" Width="120"  Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="streetTB" Width="120" Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="hnTB" Width="120" Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="pcTB" Width="120" Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="cityTB" Width="120" Height="26" Margin="0,5,0,0"/>
+                        <TextBox x:Name="countryTB" Width="120"  Height="26" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </DockPanel>
+
+            </GroupBox>
+            <StackPanel>
+                <Button Content="New Data" Height="35" VerticalAlignment="Top" Width="75" HorizontalAlignment="Left" Margin="20,15,0,0" Click="NewDataButton_Click"/>
+                <Button Content="Update Data" Height="35" VerticalAlignment="Top" Width="75" HorizontalAlignment="Left" Margin="20,15,0,0" Click="UpdateDataButton_Click"/>
+                <Button Content="Clear Data" Height="35" VerticalAlignment="Top" Width="75" HorizontalAlignment="Left" Margin="20,15,0,0" Click="ClearDataButton_Click"/>
+                <Button Content="Offer" Height="35" VerticalAlignment="Top" Width="75" HorizontalAlignment="Left" Margin="20,50,0,0"/>
+                <Button Content="Invoice" Height="35" VerticalAlignment="Top" Width="75" HorizontalAlignment="Left" Margin="20,15,0,0"/>
+                <Button Content="Delivery" Height="35" VerticalAlignment="Top" Width="75" HorizontalAlignment="Left" Margin="20,15,0,0"/>
+            </StackPanel>
+            <GroupBox Header="Information" Margin="40,0,20,0" Width="600">
+                <DataGrid  Height="310" Margin="5,0,5,5">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date"  />
+                        <DataGridTextColumn Header="Context" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </DockPanel>
+
+
+
     </Grid>
 </Window>

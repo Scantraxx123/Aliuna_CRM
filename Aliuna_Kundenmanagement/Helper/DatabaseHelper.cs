@@ -3,7 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Windows;
 
 namespace Aliuna_Kundenmanagement.Helper
 {
@@ -14,12 +14,16 @@ namespace Aliuna_Kundenmanagement.Helper
         public static void EstablishConnection(string path)
         {
             db = new SQLiteConnection(path);
-            
         }
         public static void CloseConnection()
         {
-            if(db != null) db.Close();
+            if (db != null) db.Close();
 
+        }
+        public static bool isConnectionOpen()
+        {
+            if (db == null) return false;
+            return true;
         }
         public static void CreateDatabase(string filePath)
         {
@@ -32,13 +36,23 @@ namespace Aliuna_Kundenmanagement.Helper
         public static void AddCustomer(Customer toSave)
         {
             db.Insert(toSave, typeof(Customer));
-
         }
 
         public static void AddCustomer(IEnumerable<Customer> toSave)
         {
             db.InsertAll(toSave, typeof(Customer));
         }
+
+        public static void DeleteCustomer(int toDelete)
+        {
+            db.Delete<Customer>(toDelete);
+        }
+
+        public static void UpdateCustomer(Customer toUpdate)
+        {
+            db.Update(toUpdate, typeof(Customer));
+        }
+
         public static IEnumerable<Customer> GetCustomers()
         {
             var query = db.Table<Customer>();

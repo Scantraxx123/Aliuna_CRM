@@ -15,7 +15,7 @@ namespace Aliuna_Kundenmanagement
     public partial class App : Application
     {
         //Method will get fired, when exiting the Application
-        //Database will be closed here
+        //Any connection will be closed after exiting
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             DatabaseHelper.CloseConnection();
