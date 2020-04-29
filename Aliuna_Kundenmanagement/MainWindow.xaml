@@ -20,14 +20,10 @@
                 <MenuItem x:Name="newDatabaseButtonCT" Header="New DB" Click="NewDatabaseButtonCT_Click" />
                 <MenuItem x:Name="loadDatabaseButtonCT" Header="Load DB" Click="LoadDatabaseButtonCT_Click"/>
             </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="New Dataset"/>
-            </MenuItem>
         </Menu>
         <DataGrid Name="customerTable" IsReadOnly="True" SelectedCellsChanged="customerTable_SelectedCellsChanged" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Height="400" Width="970" Margin="0,20,20,0">
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Open" />
                     <MenuItem Header="Delete" Click="DeleteCustomerButtonCT_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>

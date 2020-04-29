@@ -1,3 +1,8 @@
+### 29.04.2020 - Version 0.03 - FW:
+- Readme angepasst
+- Update-Funktion eingebaut
+- DB-Connection umgebaut zu Singelton
+
 ### 28.04.2020 - Version 0.02 - FW:
 - GUI massiv umgebaut
 - Neuen Customer anlegen eingebaut

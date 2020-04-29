@@ -17,21 +17,24 @@ namespace Aliuna_Kundenmanagement
     /// </summary>
     public partial class MainWindow : Window
     {
+        DatabaseHelper dh = null;
         public MainWindow()
         {
             InitializeComponent();
+            dh = DatabaseHelper.GetInstance();
         }
 
         private void InitializeWindow(string path)
         {
-            DatabaseHelper.CloseConnection();
-            DatabaseHelper.EstablishConnection(path);
-            customerTable.ItemsSource = DatabaseHelper.GetCustomers();
+            dh.CloseConnection();
+            dh.EstablishConnection(path);
+            ResetDatagrid();
+            ResetTextBoxes();
         }
 
-        private void ResetWindow()
+        private void ResetDatagrid()
         {
-            customerTable.ItemsSource = DatabaseHelper.GetCustomers();
+            customerTable.ItemsSource = dh.GetCustomers();
 
         }
 
@@ -69,7 +72,7 @@ namespace Aliuna_Kundenmanagement
             // Process save file dialog box results
             if (dlg.ShowDialog() == true)
             {
-                DatabaseHelper.CreateDatabase(dlg.FileName);
+                dh.CreateDatabase(dlg.FileName);
                 InitializeWindow(dlg.FileName);
             }
 
@@ -103,9 +106,10 @@ namespace Aliuna_Kundenmanagement
                     {
                         for (int i = 0; i < toDeleteCustomers.Count; i++)
                         {
-                            DatabaseHelper.DeleteCustomer(toDeleteCustomers[0]);
+                            dh.DeleteCustomer(toDeleteCustomers[0]);
                         }
-                        ResetWindow();
+                        ResetDatagrid();
+                        ResetTextBoxes();
                     }
                 }
             }
@@ -116,7 +120,6 @@ namespace Aliuna_Kundenmanagement
         {
             if (customerTable.SelectedItem != null)
             {
-                idTB.IsReadOnly = true;
                 var customer = (Customer)customerTable.SelectedItem;
                 idTB.Text = $"{customer.ID}";
                 companyTB.Text = $"{customer.company}";
@@ -150,10 +153,10 @@ namespace Aliuna_Kundenmanagement
                 else
                 {
                     Customer toSave = new Customer(companyTB.Text, fnTB.Text, lnTB.Text, emailTB.Text, streetTB.Text, hnTB.Text, pcTB.Text, cityTB.Text, countryTB.Text);
-                    if (DatabaseHelper.isConnectionOpen())
+                    if (dh.IsConnectionOpen())
                     {
-                        DatabaseHelper.AddCustomer(toSave);
-                        ResetWindow();
+                        dh.AddCustomer(toSave);
+                        ResetDatagrid();
                         ResetTextBoxes();
                     }
                     else MessageBox.Show("Please establish a database connection!");
@@ -171,6 +174,23 @@ namespace Aliuna_Kundenmanagement
 
         private void UpdateDataButton_Click(object sender, RoutedEventArgs e)
         {
+            if (customerTable.SelectedItem != null)
+            {
+                var customer = (Customer)customerTable.SelectedItem;
+                customer.company = companyTB.Text;
+                customer.firstName = fnTB.Text;
+                customer.lastName = lnTB.Text;
+                customer.email = emailTB.Text;
+                customer.street = streetTB.Text;
+                customer.housenumber = hnTB.Text;
+                customer.postcode = pcTB.Text;
+                customer.city = cityTB.Text;
+                customer.country = countryTB.Text;
+                dh.UpdateCustomer(customer);
+                ResetDatagrid();
+                ResetTextBoxes();
+            }
+            else MessageBox.Show("To update a set of data, you have to select one item!");
 
         }
     }

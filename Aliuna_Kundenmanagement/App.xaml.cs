@@ -18,7 +18,8 @@ namespace Aliuna_Kundenmanagement
         //Any connection will be closed after exiting
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            DatabaseHelper.CloseConnection();
+            DatabaseHelper dh = DatabaseHelper.GetInstance();
+            dh.CloseConnection();
         }
     }
 }
