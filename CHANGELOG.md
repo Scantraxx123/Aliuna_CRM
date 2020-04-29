@@ -1,3 +1,7 @@
+### 29.04.2020 - Version 0.04 - FW:
+- Datenbank passwortgeschützt
+- Filter für Datagrid eingebaut
+
 ### 29.04.2020 - Version 0.03 - FW:
 - Readme angepasst
 - Update-Funktion eingebaut
@@ -9,7 +13,6 @@
 - Customer um PLZ erweitert
 - Datenbankoperationen erweitert
 - Diverse Fixes
-
 
 ### 27.04.2020 - Version 0.01 - FW:
 - Initial Push

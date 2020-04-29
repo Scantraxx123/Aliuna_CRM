@@ -1,10 +1,4 @@
-﻿using Aliuna_Kundenmanagement.Helper;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Aliuna_Kundenmanagement.Controller;
 using System.Windows;
 
 namespace Aliuna_Kundenmanagement
@@ -18,7 +12,7 @@ namespace Aliuna_Kundenmanagement
         //Any connection will be closed after exiting
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            DatabaseHelper dh = DatabaseHelper.GetInstance();
+            DatabaseController dh = DatabaseController.GetInstance();
             dh.CloseConnection();
         }
     }

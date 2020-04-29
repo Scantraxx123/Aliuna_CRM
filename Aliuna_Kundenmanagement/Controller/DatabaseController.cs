@@ -1,26 +1,24 @@
 ﻿using Aliuna_Kundenmanagement.Model;
 using SQLite;
-using System;
 using System.Collections.Generic;
-using System.IO;
 
-namespace Aliuna_Kundenmanagement.Helper
+namespace Aliuna_Kundenmanagement.Controller
 {
-    sealed class DatabaseHelper
+    sealed class DatabaseController
     {
-        private volatile static DatabaseHelper _db = null;
+        private volatile static DatabaseController _db = null;
         private SQLiteConnection _sqlCon = null;
         // Hilfsfeld für eine sichere Threadsynchronisierung
         private static object m_lock = new object();
 
-        private DatabaseHelper()
+        private DatabaseController()
         {
         }
 
-        public static DatabaseHelper GetInstance()
+        public static DatabaseController GetInstance()
         {
             if (_db == null)
-                lock (m_lock) { if (_db == null) _db = new DatabaseHelper(); }
+                lock (m_lock) { if (_db == null) _db = new DatabaseController(); }
             return _db;
         }
         public bool IsConnectionOpen()
@@ -29,9 +27,14 @@ namespace Aliuna_Kundenmanagement.Helper
             return true;
         }
 
-        public void EstablishConnection(string path)
+        public void EstablishConnection(string path, string pw)
         {
-            if (this._sqlCon == null && !path.Equals(string.Empty)) this._sqlCon = new SQLiteConnection(path);
+            if (this._sqlCon == null && !path.Equals(string.Empty))
+            {
+                var options = new SQLiteConnectionString(path, true, key: pw);
+                this._sqlCon = new SQLiteConnection(options);
+            }
+
         }
 
         public void CloseConnection()
@@ -43,13 +46,11 @@ namespace Aliuna_Kundenmanagement.Helper
             }
         }
 
-        public void CreateDatabase(string filePath)
+        public void CreateDatabase(string filePath, string pw)
         {
             CloseConnection();
-            var tempDatabasePath = Path.Combine(Environment.CurrentDirectory, @"Data\tempDatabase.db");
-            File.Copy(tempDatabasePath, filePath, true);
-            var newDatabasePath = Path.Combine(filePath);
-            this._sqlCon = new SQLiteConnection(newDatabasePath);
+            var options = new SQLiteConnectionString(filePath, true, key: pw);
+            this._sqlCon = new SQLiteConnection(options);
             this._sqlCon.CreateTable<Customer>();
         }
         public IEnumerable<Customer> GetCustomers()

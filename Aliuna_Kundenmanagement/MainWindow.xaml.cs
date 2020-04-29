@@ -1,11 +1,11 @@
-﻿using Aliuna_Kundenmanagement.Helper;
+﻿using Aliuna_Kundenmanagement.Controller;
 using Aliuna_Kundenmanagement.Model;
+using Microsoft.VisualBasic;
 using Microsoft.Win32;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,17 +17,17 @@ namespace Aliuna_Kundenmanagement
     /// </summary>
     public partial class MainWindow : Window
     {
-        DatabaseHelper dh = null;
+        DatabaseController dh = null;
         public MainWindow()
         {
             InitializeComponent();
-            dh = DatabaseHelper.GetInstance();
+            dh = DatabaseController.GetInstance();
         }
 
-        private void InitializeWindow(string path)
+        private void InitializeWindow(string path, string pw)
         {
             dh.CloseConnection();
-            dh.EstablishConnection(path);
+            dh.EstablishConnection(path, pw);
             ResetDatagrid();
             ResetTextBoxes();
         }
@@ -59,7 +59,11 @@ namespace Aliuna_Kundenmanagement
             dlg.Filter = "SQLite Database |*.db"; // Filter files by extension
 
             // Get the selected file name and display in a TextBox 
-            if (dlg.ShowDialog() == true) InitializeWindow(dlg.FileName);
+            if (dlg.ShowDialog() == true)
+            {
+                var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
+                InitializeWindow(dlg.FileName, result);
+            }
         }
 
         private void NewDatabaseButtonCT_Click(object sender, RoutedEventArgs e)
@@ -72,8 +76,9 @@ namespace Aliuna_Kundenmanagement
             // Process save file dialog box results
             if (dlg.ShowDialog() == true)
             {
-                dh.CreateDatabase(dlg.FileName);
-                InitializeWindow(dlg.FileName);
+                var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
+                dh.CreateDatabase(dlg.FileName, result);
+                InitializeWindow(dlg.FileName, result);
             }
 
         }
@@ -192,6 +197,46 @@ namespace Aliuna_Kundenmanagement
             }
             else MessageBox.Show("To update a set of data, you have to select one item!");
 
+        }
+
+        private void OfferBT_Click(object sender, RoutedEventArgs e)
+        {
+            if (customerTable.SelectedItem != null) ExcelController.CreateOffer((Customer)customerTable.SelectedItem);
+        }
+
+        private void InvoiceBT_Click(object sender, RoutedEventArgs e)
+        {
+            if (customerTable.SelectedItem != null) ExcelController.CreateInvoice((Customer)customerTable.SelectedItem);
+        }
+
+        private void DeliveryBT_Click(object sender, RoutedEventArgs e)
+        {
+            if (customerTable.SelectedItem != null) ExcelController.CreateDelivery((Customer)customerTable.SelectedItem);
+        }
+
+        private void searchTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (dh.IsConnectionOpen())
+            {
+                if (!searchTB.Text.Equals(string.Empty))
+                {
+                    customerTable.ItemsSource = dh.GetCustomers().
+                        Where(x => x.city.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                        || x.company.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.firstName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.lastName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.email.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.street.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.housenumber.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.city.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.postcode.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.country.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                }
+                else
+                {
+                    customerTable.ItemsSource = dh.GetCustomers();
+                }
+            }
         }
     }
 }
