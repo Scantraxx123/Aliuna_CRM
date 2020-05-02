@@ -1,40 +1,34 @@
-﻿using Aliuna_Kundenmanagement.Controller;
-using Aliuna_Kundenmanagement.Model;
+﻿using Aliuna.Controller;
+using Aliuna.Model;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace Aliuna_Kundenmanagement
+namespace Aliuna
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        DatabaseController dh = null;
         public MainWindow()
         {
             InitializeComponent();
-            dh = DatabaseController.GetInstance();
         }
 
-        private void InitializeWindow(string path, string pw)
+        private void InitializeWindow()
         {
-            dh.CloseConnection();
-            dh.EstablishConnection(path, pw);
             ResetDatagrid();
             ResetTextBoxes();
         }
 
         private void ResetDatagrid()
         {
-            customerTable.ItemsSource = dh.GetCustomers();
+            customerTable.ItemsSource = BaseModel<Customer>.GetAll();
 
         }
 
@@ -50,19 +44,22 @@ namespace Aliuna_Kundenmanagement
             pcTB.Text = $"";
             cityTB.Text = $"";
             countryTB.Text = $"";
+            faxTB.Text = $"";
+            phoneTB.Text = $"";
         }
 
         private void LoadDatabaseButtonCT_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "SQLite Database |*.db"; // Filter files by extension
+            dlg.Filter = "LiteDB Database |*.db"; // Filter files by extension
 
             // Get the selected file name and display in a TextBox 
             if (dlg.ShowDialog() == true)
             {
                 var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
-                InitializeWindow(dlg.FileName, result);
+                DatabaseController.SetDatabase(dlg.FileName, result);
+                InitializeWindow();
             }
         }
 
@@ -71,14 +68,14 @@ namespace Aliuna_Kundenmanagement
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = "database"; // Default file name
             dlg.DefaultExt = ".db"; // Default file extension
-            dlg.Filter = "SQLite Database |*.db"; // Filter files by extension
+            dlg.Filter = "LiteDB Database |*.db"; // Filter files by extension
 
             // Process save file dialog box results
             if (dlg.ShowDialog() == true)
             {
                 var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
-                dh.CreateDatabase(dlg.FileName, result);
-                InitializeWindow(dlg.FileName, result);
+                DatabaseController.SetDatabase(dlg.FileName, result);
+                InitializeWindow();
             }
 
         }
@@ -87,23 +84,23 @@ namespace Aliuna_Kundenmanagement
         {
             string msg = "";
             var selectedItems = customerTable.SelectedItems;
-            List<int> toDeleteCustomers = new List<int>();
-            int toDeleteTemp;
+            List<Customer> toDeleteCustomers = new List<Customer>();
+            Customer toDeleteTemp;
             if (selectedItems.Count > 0)
             {
                 foreach (var item in selectedItems)
                 {
                     if (item != CollectionView.NewItemPlaceholder)
                     {
-                        toDeleteTemp = ((Customer)item).ID;
+                        toDeleteTemp = ((Customer)item);
                         toDeleteCustomers.Add(toDeleteTemp);
-                        msg += $"{toDeleteTemp}\n";
+                        msg += $"{toDeleteTemp.ID}\n";
                     }
 
                 }
-                if (!msg.Equals(String.Empty))
+                if (!msg.Equals(string.Empty))
                 {
-                    MessageBoxResult result = MessageBox.Show("Do you want to delete the following customers?\n" + msg,
+                    MessageBoxResult result = MessageBox.Show("Do you want to delete the following customers?\nIDs:\n" + msg,
                                               "Confirmation",
                                               MessageBoxButton.YesNo,
                                               MessageBoxImage.Question);
@@ -111,7 +108,7 @@ namespace Aliuna_Kundenmanagement
                     {
                         for (int i = 0; i < toDeleteCustomers.Count; i++)
                         {
-                            dh.DeleteCustomer(toDeleteCustomers[0]);
+                            toDeleteCustomers[i].Delete();
                         }
                         ResetDatagrid();
                         ResetTextBoxes();
@@ -127,40 +124,55 @@ namespace Aliuna_Kundenmanagement
             {
                 var customer = (Customer)customerTable.SelectedItem;
                 idTB.Text = $"{customer.ID}";
-                companyTB.Text = $"{customer.company}";
-                fnTB.Text = $"{customer.firstName}";
-                lnTB.Text = $"{customer.lastName}";
-                emailTB.Text = $"{customer.email}";
-                streetTB.Text = $"{customer.street}";
-                hnTB.Text = $"{customer.housenumber}";
-                pcTB.Text = $"{customer.postcode}";
-                cityTB.Text = $"{customer.city}";
-                countryTB.Text = $"{customer.country}";
+                companyTB.Text = $"{customer.CompanyName}";
+                fnTB.Text = $"{customer.FirstName}";
+                lnTB.Text = $"{customer.LastName}";
+                emailTB.Text = $"{customer.Email}";
+                streetTB.Text = $"{customer.Street}";
+                hnTB.Text = $"{customer.Housenumber}";
+                pcTB.Text = $"{customer.Postcode}";
+                cityTB.Text = $"{customer.City}";
+                countryTB.Text = $"{customer.Country}";
+                phoneTB.Text = $"{customer.PhoneNumber}";
+                faxTB.Text = $"{customer.FaxNumber}";
             }
         }
 
         private void NewDataButton_Click(object sender, RoutedEventArgs e)
         {
-            if (companyTB.Text.Equals(String.Empty) && fnTB.Text.Equals(String.Empty) && lnTB.Text.Equals(String.Empty))
+            if (companyTB.Text.Equals(string.Empty) && fnTB.Text.Equals(string.Empty) && lnTB.Text.Equals(string.Empty))
             {
                 MessageBox.Show("Please enter the companyname or at least first AND last name!");
             }
             else
             {
-                if (companyTB.Text.Equals(String.Empty) && !fnTB.Text.Equals(String.Empty) && lnTB.Text.Equals(String.Empty))
+                if (companyTB.Text.Equals(string.Empty) && !fnTB.Text.Equals(string.Empty) && lnTB.Text.Equals(string.Empty))
                 {
                     MessageBox.Show("Please enter the companyname or at least first AND last name!");
                 }
-                if (companyTB.Text.Equals(String.Empty) && fnTB.Text.Equals(String.Empty) && !lnTB.Text.Equals(String.Empty))
+                if (companyTB.Text.Equals(string.Empty) && fnTB.Text.Equals(string.Empty) && !lnTB.Text.Equals(string.Empty))
                 {
                     MessageBox.Show("Please enter the companyname or at least first AND last name!");
                 }
                 else
                 {
-                    Customer toSave = new Customer(companyTB.Text, fnTB.Text, lnTB.Text, emailTB.Text, streetTB.Text, hnTB.Text, pcTB.Text, cityTB.Text, countryTB.Text);
-                    if (dh.IsConnectionOpen())
+                    if (App.isDBConOpen)
                     {
-                        dh.AddCustomer(toSave);
+                        Customer toSave = new Customer
+                        {
+                            CompanyName = companyTB.Text,
+                            FirstName = fnTB.Text,
+                            LastName = lnTB.Text,
+                            Email = emailTB.Text,
+                            Street = streetTB.Text,
+                            Housenumber = hnTB.Text,
+                            Postcode = pcTB.Text,
+                            City = cityTB.Text,
+                            Country = countryTB.Text,
+                            PhoneNumber = phoneTB.Text,
+                            FaxNumber = faxTB.Text
+                        };
+                        toSave.Save();
                         ResetDatagrid();
                         ResetTextBoxes();
                     }
@@ -182,16 +194,19 @@ namespace Aliuna_Kundenmanagement
             if (customerTable.SelectedItem != null)
             {
                 var customer = (Customer)customerTable.SelectedItem;
-                customer.company = companyTB.Text;
-                customer.firstName = fnTB.Text;
-                customer.lastName = lnTB.Text;
-                customer.email = emailTB.Text;
-                customer.street = streetTB.Text;
-                customer.housenumber = hnTB.Text;
-                customer.postcode = pcTB.Text;
-                customer.city = cityTB.Text;
-                customer.country = countryTB.Text;
-                dh.UpdateCustomer(customer);
+                customer.CompanyName = companyTB.Text;
+                customer.FirstName = fnTB.Text;
+                customer.LastName = lnTB.Text;
+                customer.Email = emailTB.Text;
+                customer.Street = streetTB.Text;
+                customer.Housenumber = hnTB.Text;
+                customer.Postcode = pcTB.Text;
+                customer.City = cityTB.Text;
+                customer.Country = countryTB.Text;
+                customer.FaxNumber = faxTB.Text;
+                customer.PhoneNumber = phoneTB.Text;
+                customer.UpdatedAt = DateTime.Now;
+                customer.Save();
                 ResetDatagrid();
                 ResetTextBoxes();
             }
@@ -199,42 +214,28 @@ namespace Aliuna_Kundenmanagement
 
         }
 
-        private void OfferBT_Click(object sender, RoutedEventArgs e)
-        {
-            if (customerTable.SelectedItem != null) ExcelController.CreateOffer((Customer)customerTable.SelectedItem);
-        }
-
-        private void InvoiceBT_Click(object sender, RoutedEventArgs e)
-        {
-            if (customerTable.SelectedItem != null) ExcelController.CreateInvoice((Customer)customerTable.SelectedItem);
-        }
-
-        private void DeliveryBT_Click(object sender, RoutedEventArgs e)
-        {
-            if (customerTable.SelectedItem != null) ExcelController.CreateDelivery((Customer)customerTable.SelectedItem);
-        }
-
         private void searchTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (dh.IsConnectionOpen())
+            if (App.isDBConOpen)
             {
                 if (!searchTB.Text.Equals(string.Empty))
                 {
-                    customerTable.ItemsSource = dh.GetCustomers().
-                        Where(x => x.city.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                        || x.company.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.firstName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.lastName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.email.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.street.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.housenumber.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.city.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.postcode.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || x.country.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                    customerTable.ItemsSource = BaseModel<Customer>.GetAll(x => x.City.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                        || x.CompanyName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.FirstName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.LastName.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.Email.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.Street.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.Housenumber.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.City.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.Postcode.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.Country.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.PhoneNumber.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    || x.FaxNumber.IndexOf(searchTB.Text, StringComparison.OrdinalIgnoreCase) >= 0);
                 }
                 else
                 {
-                    customerTable.ItemsSource = dh.GetCustomers();
+                    customerTable.ItemsSource = BaseModel<Customer>.GetAll();
                 }
             }
         }

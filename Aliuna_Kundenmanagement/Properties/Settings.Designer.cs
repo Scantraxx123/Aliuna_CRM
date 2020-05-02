@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Aliuna_Kundenmanagement.Properties {
+namespace Aliuna.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

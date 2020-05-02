@@ -1,84 +1,62 @@
-﻿using Aliuna_Kundenmanagement.Model;
-using SQLite;
-using System.Collections.Generic;
+﻿using Aliuna.Model;
+using Aliuna.Model.Documents;
+using LiteDB;
 
-namespace Aliuna_Kundenmanagement.Controller
+namespace Aliuna.Controller
 {
-    sealed class DatabaseController
+    class DatabaseController
     {
-        private volatile static DatabaseController _db = null;
-        private SQLiteConnection _sqlCon = null;
-        // Hilfsfeld für eine sichere Threadsynchronisierung
-        private static object m_lock = new object();
-
-        private DatabaseController()
+        /// <summary>
+        /// Create or establish connection with database with all References, Indexes 
+        /// </summary>
+        /// <param name="fileName">Path to database</param>
+        /// <param name="pw">password for databae</param>
+        /// <returns></returns>
+        public static void SetDatabase(string fileName, string pw)
         {
+            //https://www.litedb.org/docs/connection-string/
+            //var cn = new ConnectionString($"filename={fileName};connection=shared;password={result};upgrade=true");
+            SetConnectionStrings(new ConnectionString($"filename={fileName};password={pw};upgrade=true"));
+            SetIndexes();
+            SetReferences();
+            App.isDBConOpen = true;
         }
 
-        public static DatabaseController GetInstance()
+        private static void SetReferences()
         {
-            if (_db == null)
-                lock (m_lock) { if (_db == null) _db = new DatabaseController(); }
-            return _db;
-        }
-        public bool IsConnectionOpen()
-        {
-            if (this._sqlCon == null) return false;
-            return true;
-        }
-
-        public void EstablishConnection(string path, string pw)
-        {
-            if (this._sqlCon == null && !path.Equals(string.Empty))
-            {
-                var options = new SQLiteConnectionString(path, true, key: pw);
-                this._sqlCon = new SQLiteConnection(options);
-            }
-
+            BsonMapper.Global.Entity<Delivery>().DbRef(x => x.RelatedInvoice, "invoices");
+            BsonMapper.Global.Entity<Delivery>().DbRef(x => x.Products, "products");
+            BsonMapper.Global.Entity<Invoice>().DbRef(x => x.RelatedOffer, "offers");
+            BsonMapper.Global.Entity<Invoice>().DbRef(x => x.Products, "products");
+            BsonMapper.Global.Entity<Offer>().DbRef(x => x.Products, "products");
+            BsonMapper.Global.Entity<Customer>().DbRef(x => x.Orders, "orders");
+            BsonMapper.Global.Entity<Order>().DbRef(x => x.Employee, "employees");
+            BsonMapper.Global.Entity<Order>().DbRef(x => x.Customer, "customers");
+            BsonMapper.Global.Entity<Order>().DbRef(x => x.Offers, "offers");
+            BsonMapper.Global.Entity<Order>().DbRef(x => x.Invoice, "invoices");
+            BsonMapper.Global.Entity<Order>().DbRef(x => x.Delivery, "deliveries");
+            BsonMapper.Global.Entity<Order>().DbRef(x => x.Products, "products");
         }
 
-        public void CloseConnection()
+        private static void SetIndexes()
         {
-            if (this._sqlCon != null)
-            {
-                this._sqlCon.Close();
-                this._sqlCon = null;
-            }
+            BaseModel<Employee>.EnsureIndex(x => x.Department);
+            BaseModel<Order>.EnsureIndex(x => x.Employee);
+            BaseModel<Order>.EnsureIndex(x => x.Customer);
+            BaseModel<Product>.EnsureIndex(x => x.Manufacturer);
         }
 
-        public void CreateDatabase(string filePath, string pw)
+        private static void SetConnectionStrings(ConnectionString cs)
         {
-            CloseConnection();
-            var options = new SQLiteConnectionString(filePath, true, key: pw);
-            this._sqlCon = new SQLiteConnection(options);
-            this._sqlCon.CreateTable<Customer>();
+            BaseModel<Document>.connectionString = cs;
+            BaseModel<Customer>.connectionString = cs;
+            BaseModel<Delivery>.connectionString = cs;
+            BaseModel<Employee>.connectionString = cs;
+            BaseModel<Invoice>.connectionString = cs;
+            BaseModel<Offer>.connectionString = cs;
+            BaseModel<Order>.connectionString = cs;
+            BaseModel<Product>.connectionString = cs;
         }
-        public IEnumerable<Customer> GetCustomers()
-        {
-            var query = this._sqlCon.Table<Customer>();
-            var list = query.ToList();
-            return list;
-        }
-        public void AddCustomer(Customer toSave)
-        {
-            this._sqlCon.Insert(toSave, typeof(Customer));
-        }
-
-        public void AddCustomer(IEnumerable<Customer> toSave)
-        {
-            this._sqlCon.InsertAll(toSave, typeof(Customer));
-        }
-
-        public void DeleteCustomer(int toDelete)
-        {
-            this._sqlCon.Delete<Customer>(toDelete);
-        }
-
-        public void UpdateCustomer(Customer toUpdate)
-        {
-            this._sqlCon.Update(toUpdate, typeof(Customer));
-        }
-
 
     }
 }

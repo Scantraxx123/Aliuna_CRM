@@ -1,37 +1,62 @@
-﻿using SQLite;
+﻿using LiteDB;
+using System;
+using System.Collections.Generic;
 
-namespace Aliuna_Kundenmanagement.Model
+namespace Aliuna.Model
 {
-    class Customer
+    [CollectionName("customer")]
+    class Customer : BaseModel<Customer>
     {
-        [PrimaryKey, AutoIncrement]
-        public int ID { get; set; }
-        public string company { get; set; }
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string street { get; set; }
-        public string housenumber { get; set; }
-        public string postcode { get; set; }
-        public string city { get; set; }
-        public string country { get; set; }
+        [BsonField("companyname")]
+        public string CompanyName { get; set; }
+
+        [BsonField("firstname")]
+        public string FirstName { get; set; }
+
+        [BsonField("lastname")]
+        public string LastName { get; set; }
+
+        [BsonField("email")]
+        public string Email { get; set; }
+
+        [BsonField("street")]
+        public string Street { get; set; }
+
+        [BsonField("housenumber")]
+        public string Housenumber { get; set; }
+
+        [BsonField("postcode")]
+        public string Postcode { get; set; }
+
+        [BsonField("city")]
+        public string City { get; set; }
+
+        [BsonField("country")]
+        public string Country { get; set; }
+
+        [BsonField("phonemumber")]
+        public string PhoneNumber { get; set; }
+
+        [BsonField("faxnumber")]
+        public string FaxNumber { get; set; }
+
+        //[BsonRef("orders")]
+        [BsonField("orders")]
+        public List<Order> Orders { get; set; } = new List<Order>();
+
+        [BsonField("notes")]
+        public List<string> Notes { get; set; } = new List<string>();
+
+        [BsonField("createdat")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [BsonField("updatedat")]
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
         public Customer()
         {
 
         }
 
-        public Customer(string company, string firstName, string lastName, string email, string street, string housenumber, string postcode, string city, string country)
-        {
-            this.company = company;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.street = street;
-            this.housenumber = housenumber;
-            this.postcode = postcode;
-            this.city = city;
-            this.country = country;
-        }
     }
 }

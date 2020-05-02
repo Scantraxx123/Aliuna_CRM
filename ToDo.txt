@@ -1,6 +1,6 @@
-- Filter für Datagrid
+- Filter für Datagrid (überarbeiten)
 - Angebote, Rechnungen und Lieferscheine automatisch erstellen plus Nummer also datenbank
 - Export der Daten
 - Produkte zuordnen
 - pw field ändern/Visual Basic!!!!!
-- andere datenbank? https://github.com/mbdavid/LiteDB
+- email liste exportieren

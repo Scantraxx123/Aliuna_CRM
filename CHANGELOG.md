@@ -1,3 +1,8 @@
+### 02.05.2020 - Version 0.05 - FW:
+- Datenbank umgebaut von SQLite => LiteDB
+- Alle Modelle eingebaut und untereinander vernetzt
+- DatenbankController eingebaut 
+
 ### 29.04.2020 - Version 0.04 - FW:
 - Datenbank passwortgeschützt
 - Filter für Datagrid eingebaut

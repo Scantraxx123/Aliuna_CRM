@@ -1,10 +1,10 @@
-﻿using Aliuna_Kundenmanagement.Model;
+﻿using Aliuna.Model;
 using Microsoft.Win32;
 using OfficeOpenXml;
 using System;
 using System.IO;
 
-namespace Aliuna_Kundenmanagement.Controller
+namespace Aliuna.Controller
 {
     static class ExcelController
     {
@@ -53,25 +53,25 @@ namespace Aliuna_Kundenmanagement.Controller
 
         private static void WriteInformation(ExcelWorksheet ws, Customer customer)
         {
-            if (customer.company.Equals(string.Empty))
+            if (customer.CompanyName.Equals(string.Empty))
             {
-                ws.Cells["A8"].Value = $"{customer.firstName} {customer.lastName}";
-                ws.Cells["A9"].Value = $"{customer.street} {customer.housenumber}";
-                ws.Cells["A10"].Value = $"{customer.postcode} {customer.city}";
+                ws.Cells["A8"].Value = $"{customer.FirstName} {customer.LastName}";
+                ws.Cells["A9"].Value = $"{customer.Street} {customer.Housenumber}";
+                ws.Cells["A10"].Value = $"{customer.Postcode} {customer.City}";
             }
             else
             {
-                ws.Cells["A8"].Value = $"{customer.company}";
-                if (customer.firstName.Equals(String.Empty))
+                ws.Cells["A8"].Value = $"{customer.CompanyName}";
+                if (customer.FirstName.Equals(String.Empty))
                 {
-                    ws.Cells["A9"].Value = $"{customer.street} {customer.housenumber}";
-                    ws.Cells["A10"].Value = $"{customer.postcode} {customer.city}";
+                    ws.Cells["A9"].Value = $"{customer.Street} {customer.Housenumber}";
+                    ws.Cells["A10"].Value = $"{customer.Postcode} {customer.City}";
                 }
                 else
                 {
-                    ws.Cells["A9"].Value = $"{customer.firstName} {customer.lastName}";
-                    ws.Cells["A10"].Value = $"{customer.street} {customer.housenumber}";
-                    ws.Cells["A11"].Value = $"{customer.postcode} {customer.city}";
+                    ws.Cells["A9"].Value = $"{customer.FirstName} {customer.LastName}";
+                    ws.Cells["A10"].Value = $"{customer.Street} {customer.Housenumber}";
+                    ws.Cells["A11"].Value = $"{customer.Postcode} {customer.City}";
                 }
             }
             ws.Cells["F17"].Value = $"{customer.ID}";
