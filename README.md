@@ -4,7 +4,7 @@ This project is a little tool for my company. It is a little CRM-System, which w
 
 ### Used Libaries
 * https://github.com/JanKallman/EPPlus (old Version for free Usage)
-* https://github.com/praeclarum/sqlite-net
+* https://www.litedb.org/
 
 ### License
 Everbody can use it for anything :)
