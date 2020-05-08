@@ -14,14 +14,5 @@ namespace Aliuna.Model
 
         [BsonField("amount")]
         public List<int> Amount { get; set; }
-
-        [BsonField("notes")]
-        public List<string> Notes { get; set; } = new List<string>();
-
-        [BsonField("createdat")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        [BsonField("updatedat")]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

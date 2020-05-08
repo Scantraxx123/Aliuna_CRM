@@ -1,15 +1,30 @@
 ﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Aliuna.Model
 {
     public class BaseModel<T> where T : new()
     {
         [BsonId(true)]
+        [BsonField("ID")]
         public int ID { get; set; }
 
+        [BsonField("notes")]
+        public List<string> Notes { get; set; } = new List<string>();
+
+        [BsonField("createdat")]
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        [BsonField("updatedat")]
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
         public static ConnectionString connectionString = null;
+
+
+
 
         public static string CollectionName()
         {
@@ -37,7 +52,7 @@ namespace Aliuna.Model
             return name;
         }
 
-        public static void EnsureIndex(System.Linq.Expressions.Expression<System.Func<T, object>> predicate)
+        public static void EnsureIndex(Expression<System.Func<T, object>> predicate)
         {
             using (var db = new LiteDatabase(connectionString))
             {
@@ -58,25 +73,25 @@ namespace Aliuna.Model
             }
         }
 
-        public static List<T> GetAll(System.Func<T, bool> predicate)
+        public static List<T> GetAll(Expression<System.Func<T, bool>> predicate)
         {
             using (var db = new LiteDatabase(connectionString))
             {
                 var collection = db.GetCollection<T>(CollectionName());
 
-                List<T> result = collection.FindAll().Where(predicate).ToList();
+                List<T> result = collection.Find(predicate).ToList();
 
                 return result;
             }
         }
 
-        public static T GetOne(System.Func<T, bool> predicate)
+        public static T GetOne(Expression<System.Func<T, bool>> predicate)
         {
             using (var db = new LiteDatabase(connectionString))
             {
                 var collection = db.GetCollection<T>(CollectionName());
 
-                T result = collection.FindAll().Where(predicate).First();
+                T result = collection.Find(predicate).First();
 
                 return result;
             }
@@ -110,6 +125,6 @@ namespace Aliuna.Model
 
                 collection.Delete(this.ID);
             }
-        }
+        }   
     }
 }

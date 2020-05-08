@@ -1,5 +1,6 @@
 ﻿using Aliuna.Controller;
 using Aliuna.Model;
+using Aliuna.View;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
@@ -34,18 +35,18 @@ namespace Aliuna
 
         private void ResetTextBoxes()
         {
-            idTB.Text = $"";
-            companyTB.Text = $"";
-            fnTB.Text = $"";
-            lnTB.Text = $"";
-            emailTB.Text = $"";
-            streetTB.Text = $"";
-            hnTB.Text = $"";
-            pcTB.Text = $"";
-            cityTB.Text = $"";
-            countryTB.Text = $"";
-            faxTB.Text = $"";
-            phoneTB.Text = $"";
+            idTB.Text = string.Empty;
+            companyTB.Text = string.Empty;
+            fnTB.Text = string.Empty;
+            lnTB.Text = string.Empty;
+            emailTB.Text = string.Empty;
+            streetTB.Text = string.Empty;
+            hnTB.Text = string.Empty;
+            pcTB.Text = string.Empty;
+            cityTB.Text = string.Empty;
+            countryTB.Text = string.Empty;
+            faxTB.Text = string.Empty;
+            phoneTB.Text = string.Empty;
         }
 
         private void LoadDatabaseButtonCT_Click(object sender, RoutedEventArgs e)
@@ -82,18 +83,18 @@ namespace Aliuna
 
         private void DeleteCustomerButtonCT_Click(object sender, RoutedEventArgs e)
         {
-            string msg = "";
+            string msg = string.Empty;
             var selectedItems = customerTable.SelectedItems;
-            List<Customer> toDeleteCustomers = new List<Customer>();
+            List<Customer> toDeleteList = new List<Customer>();
             Customer toDeleteTemp;
             if (selectedItems.Count > 0)
             {
                 foreach (var item in selectedItems)
                 {
-                    if (item != CollectionView.NewItemPlaceholder)
+                    if (!item.Equals(CollectionView.NewItemPlaceholder))
                     {
-                        toDeleteTemp = ((Customer)item);
-                        toDeleteCustomers.Add(toDeleteTemp);
+                        toDeleteTemp = (Customer)item;
+                        toDeleteList.Add(toDeleteTemp);
                         msg += $"{toDeleteTemp.ID}\n";
                     }
 
@@ -106,15 +107,16 @@ namespace Aliuna
                                               MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        for (int i = 0; i < toDeleteCustomers.Count; i++)
+                        for (int i = 0; i < toDeleteList.Count; i++)
                         {
-                            toDeleteCustomers[i].Delete();
+                            toDeleteList[i].Delete();
                         }
-                        ResetDatagrid();
-                        ResetTextBoxes();
+
                     }
                 }
             }
+            ResetDatagrid();
+            ResetTextBoxes();
 
         }
 
@@ -238,6 +240,12 @@ namespace Aliuna
                     customerTable.ItemsSource = BaseModel<Customer>.GetAll();
                 }
             }
+        }
+
+        private void configureEmployeesMI_Click(object sender, RoutedEventArgs e)
+        {
+            EmployeeWindow ew = new EmployeeWindow();
+            ew.Show();
         }
     }
 }

@@ -1,3 +1,7 @@
+### 09.05.2020 - Version 0.06 - FW:
+- Basemodell erweitert, dafür die anderen Modelle entschlackt
+- Employees können jetzt angelegt werden
+
 ### 02.05.2020 - Version 0.05 - FW:
 - Datenbank umgebaut von SQLite => LiteDB
 - Alle Modelle eingebaut und untereinander vernetzt

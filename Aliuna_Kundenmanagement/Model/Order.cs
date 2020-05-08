@@ -31,14 +31,5 @@ namespace Aliuna.Model
         [BsonField("products")]
         //[BsonRef("products")]
         public List<Product> Products { get; set; } = new List<Product>();
-
-        [BsonField("notes")]
-        public List<string> Notes { get; set; } = new List<string>();
-
-        [BsonField("createdat")]
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        [BsonField("updatedat")]
-        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

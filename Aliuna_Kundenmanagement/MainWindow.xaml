@@ -20,6 +20,10 @@
                 <MenuItem x:Name="newDatabaseButtonCT" Header="New DB" Click="NewDatabaseButtonCT_Click" />
                 <MenuItem x:Name="loadDatabaseButtonCT" Header="Load DB" Click="LoadDatabaseButtonCT_Click"/>
             </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem x:Name="configureProductsMI" Header="Products" />
+                <MenuItem x:Name="configureEmployeesMI" Header="Employees" Click="configureEmployeesMI_Click"/>
+            </MenuItem>
         </Menu>
         <DataGrid Name="customerTable" IsReadOnly="True" SelectedCellsChanged="customerTable_SelectedCellsChanged" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Height="320" Width="970" Margin="8,50,27,0" VerticalAlignment="Center">
             <DataGrid.ContextMenu>
@@ -96,8 +100,7 @@
             <ToolBarTray VerticalAlignment="Top" Margin="0,25,0,0" Height="25" >
                 <ToolBar Height="25" VerticalAlignment="Top">
                     <Label Content="Search" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBox x:Name="searchTB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="25" TextChanged="searchTB_TextChanged"
-/>
+                    <TextBox x:Name="searchTB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="25" TextChanged="searchTB_TextChanged"/>
                 </ToolBar>
             </ToolBarTray>
         </DockPanel>

@@ -1,0 +1,59 @@
+﻿<Window x:Class="Aliuna.View.EmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aliuna.View"
+        mc:Ignorable="d"
+        Title="EmployeeWindow" Height="450" Width="400" ResizeMode="CanMinimize" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" MinWidth="200" />
+                <ColumnDefinition Width="Auto" MinWidth="200"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Information">
+                <DockPanel>
+                    <StackPanel HorizontalAlignment="Left">
+                        <Label Content="Employeenumber" Margin="0,5,0,0" />
+                        <Label Content="First Name" Margin="0,5,0,0"  />
+                        <Label Content="Last Name" Margin="0,5,0,0" />
+                        <Label Content="Department" Margin="0,5,0,0" />
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right">
+                        <TextBox x:Name="idTB" Width="100" Height="26" Margin="0,5,0,0" IsReadOnly="True"/>
+                        <TextBox x:Name="firstNameTB" Width="100" Height="26" Margin="0,5,0,0" />
+                        <TextBox x:Name="lastNameTB" Width="100" Height="26" Margin="0,5,0,0" />
+                        <TextBox x:Name="departmentTB" Width="100" Height="26" Margin="0,5,0,0" />
+                    </StackPanel>
+                </DockPanel>
+            </GroupBox>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                <Button x:Name="createEmployeeBT" Content="Create Employee" Margin="0,20,0,0" Height="40" Click="CreateEmployeeBT_Click"/>
+                <Button x:Name="updateEmployeeBT" Content="Update Employee" Margin="0,20,0,0" Height="40" Click="UpdateEmployeeBT_Click"/>
+                <Button x:Name="clearEmployeeFieldsBT" Content="Clear" Margin="0,20,0,0" Height="40" Click="ClearEmployeeFieldsBT_Click"/>
+            </StackPanel>
+        </Grid>
+        <DataGrid x:Name="employeeTable" IsReadOnly="True" Grid.Row="1" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" SelectedCellsChanged="employeeTable_SelectedCellsChanged">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Click="DeleteEmployeeButtonCT_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
+                <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" />
+                <DataGridTextColumn Header="Department" Binding="{Binding Department}" />
+                <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>
