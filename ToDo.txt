@@ -4,3 +4,4 @@
 - Produkte zuordnen
 - pw field ändern/Visual Basic!!!!!
 - email liste exportieren
+- Connected Status anzeigen

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Aliuna.View"
         mc:Ignorable="d"
-        Title="EmployeeWindow" Height="450" Width="400" ResizeMode="CanMinimize" Background="White">
+        Title="EmployeeWindow" Height="450" Width="600" ResizeMode="CanMinimize" Background="White">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -23,12 +23,14 @@
                         <Label Content="Employeenumber" Margin="0,5,0,0" />
                         <Label Content="First Name" Margin="0,5,0,0"  />
                         <Label Content="Last Name" Margin="0,5,0,0" />
+                        <Label Content="Acronym" Margin="0,5,0,0" />
                         <Label Content="Department" Margin="0,5,0,0" />
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right">
                         <TextBox x:Name="idTB" Width="100" Height="26" Margin="0,5,0,0" IsReadOnly="True"/>
                         <TextBox x:Name="firstNameTB" Width="100" Height="26" Margin="0,5,0,0" />
                         <TextBox x:Name="lastNameTB" Width="100" Height="26" Margin="0,5,0,0" />
+                        <TextBox x:Name="acronymTB" Width="100" Height="26" Margin="0,5,0,0" />
                         <TextBox x:Name="departmentTB" Width="100" Height="26" Margin="0,5,0,0" />
                     </StackPanel>
                 </DockPanel>
@@ -49,6 +51,7 @@
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
                 <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}" />
                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" />
+                <DataGridTextColumn Header="Acronym" Binding="{Binding Acronym}" />
                 <DataGridTextColumn Header="Department" Binding="{Binding Department}" />
                 <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}"/>
                 <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="*"/>

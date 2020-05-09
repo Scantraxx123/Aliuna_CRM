@@ -1,3 +1,9 @@
+### 10.05.2020 - Version 0.07 - FW:
+- Anpassung Employees Kürzel eingeführt
+- Wenn Password falsch, dann wird Programm nicht mehr abgebrochen
+- Umzug Mainwindow
+- Update Modelle
+
 ### 09.05.2020 - Version 0.06 - FW:
 - Basemodell erweitert, dafür die anderen Modelle entschlackt
 - Employees können jetzt angelegt werden

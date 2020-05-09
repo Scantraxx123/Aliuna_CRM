@@ -13,5 +13,8 @@ namespace Aliuna.Model
 
         [BsonField("department")]
         public string Department { get; set; } //Indexfeld
+
+        [BsonField("acronym")]
+        public string Acronym { get; set; }
     }
 }

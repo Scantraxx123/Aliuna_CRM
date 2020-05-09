@@ -1,6 +1,5 @@
 ﻿using Aliuna.Controller;
 using Aliuna.Model;
-using Aliuna.View;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
@@ -9,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace Aliuna
+namespace Aliuna.View
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
@@ -51,32 +50,51 @@ namespace Aliuna
 
         private void LoadDatabaseButtonCT_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog 
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "LiteDB Database |*.db"; // Filter files by extension
-
-            // Get the selected file name and display in a TextBox 
-            if (dlg.ShowDialog() == true)
+            try
             {
-                var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
-                DatabaseController.SetDatabase(dlg.FileName, result);
-                InitializeWindow();
+                // Create OpenFileDialog 
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.Filter = "LiteDB Database |*.db"; // Filter files by extension
+
+                // Get the selected file name and display in a TextBox 
+                if (dlg.ShowDialog() == true)
+                {
+                    var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
+                    DatabaseController.SetDatabase(dlg.FileName, result);
+                    InitializeWindow();
+                }
             }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error");
+                return;
+            }
+
         }
 
         private void NewDatabaseButtonCT_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = "database"; // Default file name
-            dlg.DefaultExt = ".db"; // Default file extension
-            dlg.Filter = "LiteDB Database |*.db"; // Filter files by extension
-
-            // Process save file dialog box results
-            if (dlg.ShowDialog() == true)
+            try
             {
-                var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
-                DatabaseController.SetDatabase(dlg.FileName, result);
-                InitializeWindow();
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.FileName = "database"; // Default file name
+                dlg.DefaultExt = ".db"; // Default file extension
+                dlg.Filter = "LiteDB Database |*.db"; // Filter files by extension
+
+                // Process save file dialog box results
+                if (dlg.ShowDialog() == true)
+                {
+                    var result = Interaction.InputBox("Enter Password (if no Password, then let it empty)?", "Password");
+                    DatabaseController.SetDatabase(dlg.FileName, result);
+                    InitializeWindow();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error");
+                return;
             }
 
         }
@@ -246,6 +264,12 @@ namespace Aliuna
         {
             EmployeeWindow ew = new EmployeeWindow();
             ew.Show();
+        }
+
+        private void configureProductsMI_Click(object sender, RoutedEventArgs e)
+        {
+            ProductWindow pw = new ProductWindow();
+            pw.Show();
         }
     }
 }

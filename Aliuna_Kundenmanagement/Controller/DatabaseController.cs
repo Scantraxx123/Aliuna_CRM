@@ -1,6 +1,8 @@
 ﻿using Aliuna.Model;
 using Aliuna.Model.Documents;
 using LiteDB;
+using System;
+using System.Windows;
 
 namespace Aliuna.Controller
 {
@@ -14,12 +16,21 @@ namespace Aliuna.Controller
         /// <returns></returns>
         public static void SetDatabase(string fileName, string pw)
         {
-            //https://www.litedb.org/docs/connection-string/
-            //var cn = new ConnectionString($"filename={fileName};connection=shared;password={result};upgrade=true");
-            SetConnectionStrings(new ConnectionString($"filename={fileName};password={pw};upgrade=true"));
-            SetIndexes();
-            SetReferences();
-            App.isDBConOpen = true;
+            try
+            {
+                //https://www.litedb.org/docs/connection-string/
+                //var cn = new ConnectionString($"filename={fileName};connection=shared;password={result};upgrade=true");
+                SetConnectionStrings(new ConnectionString($"filename={fileName};password={pw};upgrade=true"));
+                SetIndexes();
+                SetReferences();
+                App.isDBConOpen = true;
+            }
+            catch (LiteException ex)
+            {
+                throw ex;
+            }
+
+
         }
 
         private static void SetReferences()

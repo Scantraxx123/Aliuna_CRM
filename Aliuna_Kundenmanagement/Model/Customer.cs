@@ -1,5 +1,4 @@
 ﻿using LiteDB;
-using System;
 using System.Collections.Generic;
 
 namespace Aliuna.Model
@@ -43,11 +42,6 @@ namespace Aliuna.Model
         //[BsonRef("orders")]
         [BsonField("orders")]
         public List<Order> Orders { get; set; } = new List<Order>();
-
-        public Customer()
-        {
-
-        }
 
     }
 }

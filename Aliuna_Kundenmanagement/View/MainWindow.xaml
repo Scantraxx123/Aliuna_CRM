@@ -1,9 +1,9 @@
-﻿<Window x:Class="Aliuna.MainWindow"
+﻿<Window x:Class="Aliuna.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Aliuna"
+        xmlns:local="clr-namespace:Aliuna.View"
         mc:Ignorable="d"
         Title="Aliuna_CRM" Width="1000" Height="800" ResizeMode="CanMinimize" Background="White">
     <Grid>
@@ -21,7 +21,7 @@
                 <MenuItem x:Name="loadDatabaseButtonCT" Header="Load DB" Click="LoadDatabaseButtonCT_Click"/>
             </MenuItem>
             <MenuItem Header="Options">
-                <MenuItem x:Name="configureProductsMI" Header="Products" />
+                <MenuItem x:Name="configureProductsMI" Header="Products" Click="configureProductsMI_Click"/>
                 <MenuItem x:Name="configureEmployeesMI" Header="Employees" Click="configureEmployeesMI_Click"/>
             </MenuItem>
         </Menu>

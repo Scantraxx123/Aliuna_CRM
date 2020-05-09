@@ -1,11 +1,8 @@
 ﻿using Aliuna.Model;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
 
 namespace Aliuna.View
 {
@@ -30,6 +27,7 @@ namespace Aliuna.View
             idTB.Text = string.Empty;
             firstNameTB.Text = string.Empty;
             lastNameTB.Text = string.Empty;
+            acronymTB.Text = string.Empty;
             departmentTB.Text = string.Empty;
         }
 
@@ -41,7 +39,7 @@ namespace Aliuna.View
 
         private void CreateEmployeeBT_Click(object sender, RoutedEventArgs e)
         {
-            if (!firstNameTB.Text.Equals(string.Empty) && !lastNameTB.Text.Equals(string.Empty) && !departmentTB.Text.Equals(string.Empty))
+            if (!firstNameTB.Text.Equals(string.Empty) && !lastNameTB.Text.Equals(string.Empty) && !departmentTB.Text.Equals(string.Empty) && !acronymTB.Text.Equals(string.Empty))
             {
                 if (App.isDBConOpen)
                 {
@@ -49,7 +47,8 @@ namespace Aliuna.View
                     {
                         Department = departmentTB.Text,
                         FirstName = firstNameTB.Text,
-                        LastName = lastNameTB.Text
+                        LastName = lastNameTB.Text,
+                        Acronym = acronymTB.Text
                     };
                     toSave.Save();
                     ResetDatagrid();
@@ -67,7 +66,9 @@ namespace Aliuna.View
                 var employee = (Employee)employeeTable.SelectedItem;
                 employee.FirstName = firstNameTB.Text;
                 employee.LastName = lastNameTB.Text;
+                employee.Acronym = acronymTB.Text;
                 employee.Department = departmentTB.Text;
+                employee.UpdatedAt = DateTime.Now;
                 employee.Save();
                 ResetDatagrid();
                 ResetTextBoxes();
@@ -120,6 +121,7 @@ namespace Aliuna.View
                 idTB.Text = $"{employee.ID}";
                 firstNameTB.Text = $"{employee.FirstName}";
                 lastNameTB.Text = $"{employee.LastName}";
+                acronymTB.Text = $"{employee.Acronym}";
                 departmentTB.Text = $"{employee.Department}";
 
             }

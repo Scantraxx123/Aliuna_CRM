@@ -54,6 +54,7 @@ namespace Aliuna.Model
 
         public static void EnsureIndex(Expression<System.Func<T, object>> predicate)
         {
+
             using (var db = new LiteDatabase(connectionString))
             {
                 var collection = db.GetCollection<T>(CollectionName());
@@ -125,6 +126,6 @@ namespace Aliuna.Model
 
                 collection.Delete(this.ID);
             }
-        }   
+        }
     }
 }
