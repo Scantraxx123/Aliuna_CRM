@@ -15,7 +15,7 @@ namespace Aliuna.Model
         public string Manufacturer { get; set; } //Indexfeld
 
         [BsonField("price")]
-        public double price { get; set; }
+        public double Price { get; set; }
 
         [BsonField("instock")]
         public int InStock { get; set; }

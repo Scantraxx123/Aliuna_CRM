@@ -1,4 +1,8 @@
-### 10.05.2020 - Version 0.07 - FW:
+### 09.05.2020 - Version 0.08 - FW:
+- Productwindow fertiggestellt
+- Header angepasst von Groupboxen
+
+### 09.05.2020 - Version 0.07 - FW:
 - Anpassung Employees Kürzel eingeführt
 - Wenn Password falsch, dann wird Programm nicht mehr abgebrochen
 - Umzug Mainwindow

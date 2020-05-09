@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="Auto" MinWidth="200" />
                 <ColumnDefinition Width="Auto" MinWidth="200"/>
             </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Information">
+            <GroupBox Grid.Column="0" Header="Attributes">
                 <DockPanel>
                     <StackPanel HorizontalAlignment="Left">
                         <Label Content="Employeenumber" Margin="0,5,0,0" />

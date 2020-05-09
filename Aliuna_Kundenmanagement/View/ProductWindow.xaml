@@ -16,14 +16,15 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" MinWidth="200" />
-                <ColumnDefinition Width="Auto" MinWidth="200"/>
+                <ColumnDefinition Width="Auto" MinWidth="150"/>
+                <ColumnDefinition Width="Auto" MinWidth="150"/>
             </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Information">
+            <GroupBox Grid.Column="0" Header="Attributes">
                 <DockPanel>
                     <StackPanel HorizontalAlignment="Left">
                         <Label Content="Productnumber" Margin="0,5,0,0" />
                         <Label Content="Name" Margin="0,5,0,0"  />
-                        <Label Content="Price" Margin="0,5,0,0" />
+                        <Label Content="Price (€)" Margin="0,5,0,0" />
                         <Label Content="In Stock" Margin="0,5,0,0" />
                         <Label Content="Reserved" Margin="0,5,0,0" />
                         <Label Content="Sold" Margin="0,5,0,0" />
@@ -31,7 +32,7 @@
                     <StackPanel HorizontalAlignment="Right">
                         <TextBox x:Name="idTB" Width="100" Height="26" Margin="0,5,0,0" IsReadOnly="True"/>
                         <TextBox x:Name="nameTB" Width="100" Height="26" Margin="0,5,0,0" />
-                        <TextBox x:Name="priceTB" Width="100" Height="26" Margin="0,5,0,0" PreviewTextInput="DoubleValidationTextBox"/>
+                        <TextBox x:Name="priceTB" Width="100" Height="26" Margin="0,5,0,0" PreviewTextInput="DoubleValidationTextBox" />
                         <TextBox x:Name="inStockTB" Width="100" Height="26" Margin="0,5,0,0" PreviewTextInput="IntegerValidationTextBox"/>
                         <TextBox x:Name="reservedTB" Width="100" Height="26" Margin="0,5,0,0" PreviewTextInput="IntegerValidationTextBox"/>
                         <TextBox x:Name="soldTB" Width="100" Height="26" Margin="0,5,0,0" PreviewTextInput="IntegerValidationTextBox"/>
@@ -43,6 +44,9 @@
                 <Button x:Name="updateProductBT" Content="Update Product" Margin="0,20,0,0" Height="40" Click="updateProductBT_Click"/>
                 <Button x:Name="clearProductFieldsBT" Content="Clear" Margin="0,20,0,0" Height="40" Click="clearProductFieldsBT_Click"/>
             </StackPanel>
+            <GroupBox Grid.Column="2" Header="Information"  HorizontalAlignment="Right">
+                <Label Content="TBC"/>
+            </GroupBox>
         </Grid>
         <DataGrid x:Name="productsTable" IsReadOnly="True" Grid.Row="1" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" SelectedCellsChanged="productsTable_SelectedCellsChanged">
             <DataGrid.ContextMenu>
