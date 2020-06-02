@@ -3,7 +3,7 @@
 namespace Aliuna.Model
 {
     [CollectionName("employees")]
-    class Employee : BaseModel<Employee>
+    public class Employee : BaseModel<Employee>
     {
         [BsonField("firstname")]
         public string FirstName { get; set; }
@@ -16,5 +16,7 @@ namespace Aliuna.Model
 
         [BsonField("acronym")]
         public string Acronym { get; set; }
+
+        public override string ToString() => Acronym;
     }
 }

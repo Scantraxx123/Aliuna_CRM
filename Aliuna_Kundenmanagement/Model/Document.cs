@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace Aliuna.Model
 {
     //Products and Amount need to be seen as one field, but database can not handle it
-    class Document : BaseModel<Document>
+    public class Document : BaseModel<Document>
     {
         [BsonField("products")]
         //[BsonRef("products")]

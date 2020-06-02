@@ -74,7 +74,7 @@ namespace Aliuna.Controller
                     ws.Cells["A11"].Value = $"{customer.Postcode} {customer.City}";
                 }
             }
-            ws.Cells["F17"].Value = $"{customer.ID}";
+            ws.Cells["F17"].Value = $"{customer.Id}";
             ws.Cells["I17"].Value = $"{DateTime.Now.ToString("dd.MM.yy")}";
         }
         private static void SaveFile(ExcelPackage excelPackage)

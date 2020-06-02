@@ -1,3 +1,8 @@
+### 02.06.2020 - Version 0.09 - FW:
+- Umbau GUI
+- Umbau Modelle
+- Includes eingefügt
+
 ### 09.05.2020 - Version 0.08 - FW:
 - Productwindow fertiggestellt
 - Header angepasst von Groupboxen

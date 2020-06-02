@@ -104,7 +104,7 @@ namespace Aliuna.View
                     {
                         toDeleteTemp = (Product)item;
                         toDeleteList.Add(toDeleteTemp);
-                        msg += $"{toDeleteTemp.ID}\n";
+                        msg += $"{toDeleteTemp.Id}\n";
                     }
 
                 }
@@ -132,7 +132,7 @@ namespace Aliuna.View
             if (productsTable.SelectedItem != null)
             {
                 var product = (Product)productsTable.SelectedItem;
-                idTB.Text = $"{product.ID}";
+                idTB.Text = $"{product.Id}";
                 nameTB.Text = $"{product.Name}";
                 priceTB.Text = $"{product.Price}";
                 inStockTB.Text = $"{product.InStock}";

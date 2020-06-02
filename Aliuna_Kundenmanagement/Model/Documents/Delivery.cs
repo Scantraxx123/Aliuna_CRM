@@ -3,7 +3,7 @@
 namespace Aliuna.Model.Documents
 {
     [CollectionName("deliveries")]
-    class Delivery : Document 
+    public class Delivery : Document 
     {
         [BsonField("relatedinvoice")]
         //[BsonRef("invoices")]

@@ -1,12 +1,11 @@
 ﻿using Aliuna.Model.Documents;
 using LiteDB;
-using System;
 using System.Collections.Generic;
 
 namespace Aliuna.Model
 {
     [CollectionName("orders")]
-    class Order : BaseModel<Order>
+    public class Order : BaseModel<Order>
     {
         [BsonField("employee")]
         //[BsonRef("employees")]
@@ -18,7 +17,7 @@ namespace Aliuna.Model
 
         [BsonField("offers")]
         //[BsonRef("offers")]
-        public List<Offer> Offers { get; set; } = new List<Offer>();
+        public List<Offer> Offers { get; set; }
 
         [BsonField("invoice")]
         //[BsonRef("invoices")]
@@ -30,6 +29,7 @@ namespace Aliuna.Model
 
         [BsonField("products")]
         //[BsonRef("products")]
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<Product> Products { get; set; }
+
     }
 }

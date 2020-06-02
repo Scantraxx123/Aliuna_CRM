@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Aliuna.Model
 {
     [CollectionName("products")]
-    class Product : BaseModel<Product>
+    public class Product : BaseModel<Product>
     {
 
         [BsonField("name")]

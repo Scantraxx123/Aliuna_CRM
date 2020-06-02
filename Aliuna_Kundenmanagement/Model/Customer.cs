@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Aliuna.Model
 {
-    [CollectionName("customer")]
-    class Customer : BaseModel<Customer>
+    [CollectionName("customers")]
+    public class Customer : BaseModel<Customer>
     {
         [BsonField("companyname")]
         public string CompanyName { get; set; }
@@ -41,7 +41,7 @@ namespace Aliuna.Model
 
         //[BsonRef("orders")]
         [BsonField("orders")]
-        public List<Order> Orders { get; set; } = new List<Order>();
+        public List<Order> Orders { get; set; }
 
     }
 }

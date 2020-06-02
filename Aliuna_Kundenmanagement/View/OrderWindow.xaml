@@ -1,0 +1,116 @@
+﻿<Window x:Class="Aliuna.View.OrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Aliuna.View"
+        mc:Ignorable="d"
+        Title="OrderWindow" Width="1050" Height="750" ResizeMode="CanMinimize" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0" Header="Customer">
+                <DockPanel>
+                    <StackPanel HorizontalAlignment="Left">
+                        <Label Content="Customernumber" Margin="0,5,0,0"/>
+                        <Label Content="Companyname" Margin="0,5,0,0"/>
+                        <Label Content="First name" Margin="0,5,0,0"/>
+                        <Label Content="Last name" Margin="0,5,0,0"/>
+                        <Label Content="E-Mail" Margin="0,5,0,0"/>
+                        <Label Content="Street" Margin="0,5,0,0"/>
+                        <Label Content="Housenumber" Margin="0,5,0,0"/>
+                        <Label Content="Postcode" Margin="0,5,0,0"/>
+                        <Label Content="City" Margin="0,5,0,0"/>
+                        <Label Content="Country" Margin="0,5,0,0"/>
+                        <Label Content="Phone number" Margin="0,5,0,0"/>
+                        <Label Content="Fax number" Margin="0,5,0,0"/>
+                    </StackPanel>
+                    <StackPanel HorizontalAlignment="Right">
+                        <TextBox x:Name="idTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="companyTB" Width="120" Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="fnTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="lnTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="emailTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="streetTB" Width="120" Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="hnTB" Width="120" Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="pcTB" Width="120" Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="cityTB" Width="120" Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="countryTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="phoneTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                        <TextBox x:Name="faxTB" Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                    </StackPanel>
+                </DockPanel>
+            </GroupBox>
+            <StackPanel Grid.Column="1"  Width="280">
+                <GroupBox  Header="New Order" Width="280" Margin="0,10,0,0" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top">
+                    <DockPanel>
+                        <StackPanel HorizontalAlignment="Left">
+                            <Label Content="Ordnernumber" Margin="0,5,0,0"/>
+                            <Label Content="Employee" Margin="0,5,0,0"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Right">
+                            <TextBox x:Name="orderNumberLabel"  Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                            <ComboBox x:Name="employeeCB" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </DockPanel>
+                </GroupBox>
+                <Button x:Name="UpdateCustomerBT" Content="Update Customer" Width="125" Height="40" Margin="0,10,0,0" Click="UpdateCustomerBT_Click"/>
+                <Button x:Name="NewOrderBT" Content="New Order" Width="125" Height="40" Margin="0,10,0,0" Click="NewOrderBT_Click" />
+                <Button x:Name="UpdateOrderBT" Content="Update Order" Width="125" Height="40" Margin="0,10,0,0" Click="UpdateOrderBT_Click"/>
+                <Button x:Name="ClearBT" Content="Clear" Width="125" Height="40" Margin="0,10,0,0" Click="ClearBT_Click" />
+            </StackPanel>
+            <DataGrid Name="orderTable" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Margin="10" Width="500">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
+                    <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" />
+                    <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}"/>
+                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="1" Height="300">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <DataGrid x:Name="notesTable" Grid.Column="0"  AutoGenerateColumns="False" Background="White" Margin="0,20,0,0" Width="300">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date"  Binding="{Binding NoteDate}" MinWidth="50" />
+                    <DataGridTextColumn Header="Note"  Binding="{Binding NoteText}" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Column="1" Margin="50,0" VerticalAlignment="Center">
+                <Button Content="Offer" Width="125" Height="40" Margin="0,10,0,0" />
+                <Button Content="Invoice" Width="125" Height="40" Margin="0,10,0,0" />
+                <Button Content="Delivery" Width="125" Height="40" Margin="0,10,0,0" />
+            </StackPanel>
+            <DataGrid x:Name="productTable" Grid.Column="2" AutoGenerateColumns="False" Background="White" Margin="0,20,0,0" Width="500">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Position"  />
+                    <DataGridTextColumn Header="Productnumber"  />
+                    <DataGridTextColumn Header="Productname"  />
+                    <DataGridTextColumn Header="Quantity"  />
+                    <DataGridTextColumn Header="Price"  />
+                    <DataGridTextColumn Header="Discount"   />
+                    <DataGridTextColumn Header="Total"  Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+
+</Window>

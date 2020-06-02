@@ -90,7 +90,7 @@ namespace Aliuna.View
                     {
                         toDeleteTemp = (Employee)item;
                         toDeleteList.Add(toDeleteTemp);
-                        msg += $"{toDeleteTemp.ID}\n";
+                        msg += $"{toDeleteTemp.Id}\n";
                     }
 
                 }
@@ -118,7 +118,7 @@ namespace Aliuna.View
             if (employeeTable.SelectedItem != null)
             {
                 var employee = (Employee)employeeTable.SelectedItem;
-                idTB.Text = $"{employee.ID}";
+                idTB.Text = $"{employee.Id}";
                 firstNameTB.Text = $"{employee.FirstName}";
                 lastNameTB.Text = $"{employee.LastName}";
                 acronymTB.Text = $"{employee.Acronym}";

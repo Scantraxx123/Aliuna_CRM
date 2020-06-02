@@ -6,3 +6,4 @@
 - email liste exportieren
 - Connected Status anzeigen
 - Product information erstellen
+- wpf controls hinzufügen numeric textboxes usw

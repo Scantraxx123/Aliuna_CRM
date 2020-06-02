@@ -4,9 +4,11 @@ using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Aliuna.View
 {
@@ -28,8 +30,9 @@ namespace Aliuna.View
 
         private void ResetDatagrid()
         {
-            customerTable.ItemsSource = BaseModel<Customer>.GetAll();
-
+            //var temp1 = BaseModel<Order>.GetAll();
+            var temp = BaseModel<Customer>.GetAll();
+            customerTable.ItemsSource = temp;
         }
 
         private void ResetTextBoxes()
@@ -113,7 +116,7 @@ namespace Aliuna.View
                     {
                         toDeleteTemp = (Customer)item;
                         toDeleteList.Add(toDeleteTemp);
-                        msg += $"{toDeleteTemp.ID}\n";
+                        msg += $"{toDeleteTemp.Id}\n";
                     }
 
                 }
@@ -143,7 +146,7 @@ namespace Aliuna.View
             if (customerTable.SelectedItem != null)
             {
                 var customer = (Customer)customerTable.SelectedItem;
-                idTB.Text = $"{customer.ID}";
+                idTB.Text = $"{customer.Id}";
                 companyTB.Text = $"{customer.CompanyName}";
                 fnTB.Text = $"{customer.FirstName}";
                 lnTB.Text = $"{customer.LastName}";
@@ -170,7 +173,7 @@ namespace Aliuna.View
                 {
                     MessageBox.Show("Please enter the companyname or at least first AND last name!");
                 }
-                if (companyTB.Text.Equals(string.Empty) && fnTB.Text.Equals(string.Empty) && !lnTB.Text.Equals(string.Empty))
+                else if (companyTB.Text.Equals(string.Empty) && fnTB.Text.Equals(string.Empty) && !lnTB.Text.Equals(string.Empty))
                 {
                     MessageBox.Show("Please enter the companyname or at least first AND last name!");
                 }
@@ -258,6 +261,14 @@ namespace Aliuna.View
                     customerTable.ItemsSource = BaseModel<Customer>.GetAll();
                 }
             }
+        }
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGridRow row = sender as DataGridRow;
+            var customer = (Customer)row.Item;
+            OrderWindow order = new OrderWindow(customer);
+            order.Show();
+            // Some operations with this row
         }
 
         private void configureEmployeesMI_Click(object sender, RoutedEventArgs e)
