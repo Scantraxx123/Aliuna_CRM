@@ -1,3 +1,6 @@
+### 11.06.2020 - Version 0.10 - FW:
+- Notes und Ordertable gefixed
+
 ### 02.06.2020 - Version 0.09 - FW:
 - Umbau GUI
 - Umbau Modelle

@@ -25,7 +25,7 @@
                 <MenuItem x:Name="configureEmployeesMI" Header="Employees" Click="configureEmployeesMI_Click"/>
             </MenuItem>
         </Menu>
-        <DataGrid Name="customerTable" IsReadOnly="True" SelectedCellsChanged="customerTable_SelectedCellsChanged" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Height="320" Width="970" Margin="8,50,27,0" VerticalAlignment="Center">
+        <DataGrid Name="customerTable" IsReadOnly="True" SelectedCellsChanged="customerTable_SelectedCellsChanged" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Height="310" Width="970" Margin="8,50,27,0" VerticalAlignment="Center">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Delete" Click="DeleteCustomerButtonCT_Click"/>
@@ -49,8 +49,8 @@
                 <DataGridTextColumn Header="Postcode" Binding="{Binding Postcode}" />
                 <DataGridTextColumn Header="City" Binding="{Binding City}" />
                 <DataGridTextColumn Header="Country" Binding="{Binding Country}"/>
-                <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}"/>
-                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="*"/>
+                <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
         <DockPanel Grid.Row="1">

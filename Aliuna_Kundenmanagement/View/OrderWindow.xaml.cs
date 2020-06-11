@@ -2,6 +2,7 @@
 using Aliuna.Model.Subclasses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,8 +27,8 @@ namespace Aliuna.View
         private void ResetDatagrid()
         {
             this.customer = Customer.GetOne(x => x.Id.Equals(this.customer.Id));
-            notesTable.ItemsSource = customer.Notes;
-            orderTable.ItemsSource = customer.Orders;
+            notesTable.ItemsSource = this.customer.Notes;
+            orderTable.ItemsSource = this.customer.Orders;
         }
 
         private void SetEmployeesCB()
@@ -63,7 +64,7 @@ namespace Aliuna.View
             productTable.SelectedIndex = -1;
             notesTable.SelectedIndex = -1;
             employeeCB.SelectedIndex = -1;
-            orderNumberLabel.Text = string.Empty;
+            orderNumberTB.Text = string.Empty;
         }
 
         private void UpdateCustomerBT_Click(object sender, RoutedEventArgs e)
@@ -111,9 +112,9 @@ namespace Aliuna.View
                     Employee = employee,
                     Customer = this.customer
                 };
+                order.Save();
                 this.customer.Notes.Add(new Note($"New Order was created with ID: {order.Id}"));
                 this.customer.Orders.Add(order);
-                order.Save();
                 this.customer.Save();
                 ResetDatagrid();
                 Clear();
@@ -132,11 +133,35 @@ namespace Aliuna.View
                 var order = (Order)orderTable.SelectedItem;
                 order.UpdatedAt = DateTime.Now;
                 order.Employee = (Employee)((ComboBoxItem)employeeCB.SelectedItem).Tag;
+                order.Save();
                 this.customer.Notes.Add(new Note($"Order was updated with ID: {order.Id}"));
                 this.customer.Save();
-                order.Save();
+                ResetDatagrid();
                 Clear();
-            } 
+            }
+        }
+
+        private void orderTable_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            if (orderTable.SelectedItem != null)
+            {
+                var order = (Order)orderTable.SelectedItem;
+                orderNumberTB.Text = $"{order.Id}";
+                var employees = BaseModel<Employee>.GetAll();
+                var foundEmployee = employees.Where(x => x.Id == order.Employee.Id).FirstOrDefault();
+                if (foundEmployee != null)
+                {
+                    for (int i = 0; i < employeeCB.Items.Count; i++)
+                    {
+                        var item = (ComboBoxItem)employeeCB.Items[i];
+                        var employee = (Employee)item.Tag;
+                        if (employee.Id == foundEmployee.Id)
+                        {
+                            employeeCB.SelectedIndex = i;
+                        }
+                    }
+                }
+            }
         }
     }
 }

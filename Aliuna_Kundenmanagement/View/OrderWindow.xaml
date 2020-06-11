@@ -58,7 +58,7 @@
                             <Label Content="Employee" Margin="0,5,0,0"/>
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Right">
-                            <TextBox x:Name="orderNumberLabel"  Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
+                            <TextBox x:Name="orderNumberTB"  Width="120"  Height="26" Margin="0,5,0,0" IsReadOnly="True" />
                             <ComboBox x:Name="employeeCB" Margin="0,5,0,0" />
                         </StackPanel>
                     </DockPanel>
@@ -68,17 +68,17 @@
                 <Button x:Name="UpdateOrderBT" Content="Update Order" Width="125" Height="40" Margin="0,10,0,0" Click="UpdateOrderBT_Click"/>
                 <Button x:Name="ClearBT" Content="Clear" Width="125" Height="40" Margin="0,10,0,0" Click="ClearBT_Click" />
             </StackPanel>
-            <DataGrid Name="orderTable" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Margin="10" Width="500">
+            <DataGrid Name="orderTable" Grid.Column="2" IsReadOnly="True" AutoGenerateColumns="False" Background="White" CanUserDeleteRows="False" Margin="10" Width="500" SelectedCellsChanged="orderTable_SelectedCellsChanged">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Delete"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" />
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Employee" Binding="{Binding Employee}" />
-                    <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}"/>
-                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" Width="*"/>
+                    <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt, StringFormat=\{0:dd.MM.yyyy\}}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -90,7 +90,7 @@
             </Grid.ColumnDefinitions>
             <DataGrid x:Name="notesTable" Grid.Column="0"  AutoGenerateColumns="False" Background="White" Margin="0,20,0,0" Width="300">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date"  Binding="{Binding NoteDate}" MinWidth="50" />
+                    <DataGridTextColumn Header="Date"  Binding="{Binding NoteDate, StringFormat=\{0:dd.MM.yyyy\}}" MinWidth="50" />
                     <DataGridTextColumn Header="Note"  Binding="{Binding NoteText}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
